@@ -50,6 +50,8 @@ int bouncing2 = -1;
 int bouncing3 = -1;
 int bouncing4 = -1;
 
+int i = 0;
+
 void error(){
   errors++;
   if(errors<3){
@@ -90,8 +92,9 @@ void setupDifficulty(){
   state = WAIT;
   Serial.println(state);
   disableInterrupt(buttons[0]);
+  delay(START_DELAY);
 }
-
+/*
 void startUp(){
   Serial.println("Welcome to the Catch the Led Pattern Game. Press Key T1 to Start.");
   enableInterrupt(buttons[0], setupDifficulty, RISING);
@@ -107,6 +110,28 @@ void startUp(){
   }
   digitalWrite(LED_RED, LOW);
   state = SLEEP;
+}*/
+
+void startUp(){
+  if(i == 0){
+    Serial.println("Welcome to the Catch the Led Pattern Game. Press Key T1 to Start.");
+    enableInterrupt(buttons[0], setupDifficulty, RISING);
+  }
+  if(i <= 10000){
+    analogWrite(LED_RED, intensity);
+    intensity = intensity + fadingFactor;
+    if (intensity == 0 || intensity == 255){ 
+      fadingFactor = -fadingFactor ;
+    }
+    i = i + START_DELAY;
+    delay(START_DELAY); 
+  }
+  if(i > 10000){
+    i = 0;
+    digitalWrite(LED_RED, LOW);
+    state = SLEEP;
+    delay(START_DELAY);
+  }
 }
 
 void setup()
@@ -170,6 +195,7 @@ void showPattern(){
     disableInterrupt(buttons[i]);
   }
   state = PLAY;
+  delay(START_DELAY);
   Timer1.initialize(t3*1000);
   Timer1.attachInterrupt(error);
 }
@@ -201,6 +227,7 @@ void win(){
   t2 = t2 * factor;
   t3 = t3 * factor;
   state = WAIT;
+  delay(START_DELAY);
 }
 
 bool bouncingCheck(int button){
