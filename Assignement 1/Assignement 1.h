@@ -29,6 +29,10 @@
 #define T3 10000
 #define MIN_T 100
 
+void initialize();
+
+void executeLoop();
+
 void startUp();
 
 void goSleep();
