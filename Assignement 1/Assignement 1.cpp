@@ -12,10 +12,10 @@ int intensity = 0;
 int fadingFactor = 5;
 float factor;
 long t1;
-long t2 = T2;
-long t3 = T3;
-int errors = 0;
-int score = 0;
+long t2;
+long t3;
+int errors;
+int score;
 int i = 0;
 long temp;
 
@@ -85,6 +85,10 @@ void startUp() {
     state = SLEEP;
     delay(START_DELAY);
   }
+  t2 = T2;
+  t3 = T3;
+  errors = 0;
+  score = 0;
 }
 
 void goSleep() {
@@ -147,7 +151,6 @@ bool sumCheck(int array[]) {
 void randomizeLeds() {
   for (int i = 0; i < MAX_LEDS; i++) {
     ledsON[i] = random(2);
-    Serial.println(ledsON[i]);
   }
   if (!sumCheck(ledsON)) {
     randomizeLeds();
@@ -187,12 +190,10 @@ void startGuessing() {
         bouncing[i] = 1;
         digitalWrite(leds[i], HIGH);
         if (!sumCheck(ledsON)) {
+          delay(1000);
           win();
         }
       } else {
-        for (int i = 0; i < MAX_LEDS; i++) {
-          Serial.println(ledsON[i]);
-        }
         error();
       }
     }
