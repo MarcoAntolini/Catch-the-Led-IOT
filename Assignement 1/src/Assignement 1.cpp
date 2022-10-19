@@ -19,51 +19,13 @@ int score;
 int i = 0;
 long temp;
 
-void initialize() {
-  leds[0] = LED1;
-  leds[1] = LED2;
-  leds[2] = LED3;
-  leds[3] = LED4;
-  buttons[0] = BUTTON1;
-  buttons[1] = BUTTON2;
-  buttons[2] = BUTTON3;
-  buttons[3] = BUTTON4;
-  for (int i = 0; i < MAX_LEDS; i++) {
-    pinMode(leds[i], OUTPUT);
-  }
-  for (int i = 0; i < MAX_LEDS; i++) {
-    pinMode(buttons[i], INPUT);
-  }
-  pinMode(LED_RED, OUTPUT);
-  Serial.begin(9600);
-  state = START;
-}
+// void initialize() {
+  
+// }
 
-void executeLoop() {
-  switch (state) {
-    case START:
-      startUp();
-      break;
-    case SLEEP:
-      goSleep();
-      break;
-    case WAIT:
-      showPattern();
-      break;
-    case PLAY:
-      if (millis() - temp < t3) {
-        startGuessing();
-      } else {
-        error();
-      }
-      break;
-    case ERROR:
-      checkError();
-      break;
-    default:
-      break;
-  }
-}
+// void executeLoop() {
+  
+// }
 
 void startUp() {
   if (i == 0) {
