@@ -19,14 +19,6 @@ int score;
 int i = 0;
 long temp;
 
-// void initialize() {
-  
-// }
-
-// void executeLoop() {
-  
-// }
-
 void startUp() {
   if (i == 0) {
     Serial.println("Welcome to the Catch the Led Pattern Game. Press Key T1 to Start.");

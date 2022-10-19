@@ -26,10 +26,6 @@
 
 enum gameState {START, SLEEP, WAIT, PLAY, ERROR};
 
-// void initialize();
-
-// void executeLoop();
-
 void startUp();
 
 void goSleep();

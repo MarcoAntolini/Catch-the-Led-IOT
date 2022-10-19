@@ -11,15 +11,15 @@ extern int ledsON[4];
 extern char buttons[4];
 extern int bouncing[4];
 extern enum gameState state;
-extern int intensity = 0;
-extern int fadingFactor = 5;
+extern int intensity;
+extern int fadingFactor;
 extern float factor;
 extern long t1;
 extern long t2;
 extern long t3;
 extern int errors;
 extern int score;
-extern int i = 0;
+extern int i;
 extern long temp;
 
 void setup()
