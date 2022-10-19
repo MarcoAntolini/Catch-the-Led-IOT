@@ -7,7 +7,7 @@ char leds[4];
 int ledsON[4];
 char buttons[4];
 int bouncing[4];
-int state;
+enum gameState state;
 int intensity = 0;
 int fadingFactor = 5;
 float factor;
@@ -235,14 +235,8 @@ void win() {
   score++;
   Serial.print("New point! Score: ");
   Serial.println(score);
-  t2 = t2 * factor;
-  t3 = t3 * factor;
-  if (t2 < MIN_T) {
-    t2 = MIN_T;
-  }
-  if (t3 < MIN_T) {
-    t3 = MIN_T;
-  }
+  t2 = (t2 * factor < MIN_T) ? MIN_T : t2 * factor;
+  t3 = (t3 * factor < MIN_T) ? MIN_T : t3 * factor;
   state = WAIT;
   i = 0;
   delay(START_DELAY);

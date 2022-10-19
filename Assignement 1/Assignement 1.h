@@ -13,11 +13,6 @@
 #define BUTTON3 5
 #define BUTTON4 4
 #define POT A0
-#define START 0
-#define SLEEP 1
-#define WAIT 2
-#define PLAY 3
-#define ERROR 4
 #define MAX_LEDS 4
 #define MAX_ERROR 3
 #define FACTOR1 0.9
@@ -28,6 +23,8 @@
 #define T2 5000
 #define T3 10000
 #define MIN_T 100
+
+enum gameState {START, SLEEP, WAIT, PLAY, ERROR};
 
 void initialize();
 
