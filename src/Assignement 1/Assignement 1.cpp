@@ -19,21 +19,26 @@ int score;
 int i = 0;
 long temp;
 
-void startUp() {
-  if (i == 0) {
+void startUp()
+{
+  if (i == 0)
+  {
     Serial.println("Welcome to the Catch the Led Pattern Game. Press Key T1 to Start.");
     enableInterrupt(buttons[0], setupDifficulty, RISING);
   }
-  if (i <= 10000) {
+  if (i <= 10000)
+  {
     analogWrite(LED_RED, intensity);
     intensity = intensity + fadingFactor;
-    if (intensity == 0 || intensity == 255) {
+    if (intensity == 0 || intensity == 255)
+    {
       fadingFactor = -fadingFactor;
     }
     i = i + START_DELAY;
     delay(START_DELAY);
   }
-  if (i > 10000) {
+  if (i > 10000)
+  {
     i = 0;
     digitalWrite(LED_RED, LOW);
     state = SLEEP;
@@ -45,8 +50,10 @@ void startUp() {
   score = 0;
 }
 
-void goSleep() {
-  for (int i = 0; i < MAX_LEDS; i++) {
+void goSleep()
+{
+  for (int i = 0; i < MAX_LEDS; i++)
+  {
     enableInterrupt(buttons[i], wakeUp, RISING);
   }
   set_sleep_mode(SLEEP_MODE_PWR_DOWN);
@@ -54,36 +61,40 @@ void goSleep() {
   sleep_mode();
 }
 
-void wakeUp() {
+void wakeUp()
+{
   sleep_disable();
-  for (int i = 0; i < MAX_LEDS; i++) {
+  for (int i = 0; i < MAX_LEDS; i++)
+  {
     disableInterrupt(buttons[i]);
   }
   state = START;
 }
 
-void setupDifficulty() {
+void setupDifficulty()
+{
   digitalWrite(LED_RED, LOW);
   int potLevel = analogRead(POT);
-  switch (potLevel) {
-    case 0 ... 256:
-      factor = FACTOR1;
-      Serial.println("Current difficulty: 1");
-      break;
-    case 257 ... 512:
-      factor = FACTOR2;
-      Serial.println("Current difficulty: 2");
-      break;
-    case 513 ... 768:
-      factor = FACTOR3;
-      Serial.println("Current difficulty: 3");
-      break;
-    case 769 ... 1024:
-      factor = FACTOR4;
-      Serial.println("Current difficulty: 4");
-      break;
-    default:
-      break;
+  switch (potLevel)
+  {
+  case 0 ... 256:
+    factor = FACTOR1;
+    Serial.println("Current difficulty: 1");
+    break;
+  case 257 ... 512:
+    factor = FACTOR2;
+    Serial.println("Current difficulty: 2");
+    break;
+  case 513 ... 768:
+    factor = FACTOR3;
+    Serial.println("Current difficulty: 3");
+    break;
+  case 769 ... 1024:
+    factor = FACTOR4;
+    Serial.println("Current difficulty: 4");
+    break;
+  default:
+    break;
   }
   t1 = random(5000);
   state = WAIT;
@@ -91,42 +102,54 @@ void setupDifficulty() {
   disableInterrupt(buttons[0]);
 }
 
-bool sumCheck(int array[]) {
+bool sumCheck(int array[])
+{
   int sum = 0;
-  for (int i = 0; i < MAX_LEDS; i++) {
+  for (int i = 0; i < MAX_LEDS; i++)
+  {
     sum += array[i];
   }
-  if (sum == 0) {
+  if (sum == 0)
+  {
     return false;
   }
   return true;
 }
 
-void randomizeLeds() {
-  for (int i = 0; i < MAX_LEDS; i++) {
+void randomizeLeds()
+{
+  for (int i = 0; i < MAX_LEDS; i++)
+  {
     ledsON[i] = random(2);
   }
-  if (!sumCheck(ledsON)) {
+  if (!sumCheck(ledsON))
+  {
     randomizeLeds();
   }
 }
 
-void showPattern() {
-  if (i == 0) {
+void showPattern()
+{
+  if (i == 0)
+  {
     delay(t1);
     randomizeLeds();
-    for (int i = 0; i < MAX_LEDS; i++) {
+    for (int i = 0; i < MAX_LEDS; i++)
+    {
       digitalWrite(leds[i], ledsON[i] == 1 ? HIGH : LOW);
     }
     i = 1;
     temp = millis();
   }
-  for (int i = 0; i < MAX_LEDS; i++) {
+  for (int i = 0; i < MAX_LEDS; i++)
+  {
     if (digitalRead(buttons[i]) == HIGH)
       error();
   }
-  if (millis() - temp > t2) {
-    for (int i = 0; i < MAX_LEDS; i++) {
+  if (millis() - temp > t2)
+  {
+    for (int i = 0; i < MAX_LEDS; i++)
+    {
       digitalWrite(leds[i], LOW);
       bouncing[i] = 0;
     }
@@ -136,40 +159,54 @@ void showPattern() {
   }
 }
 
-void startGuessing() {
-  for (int i = 0; i < MAX_LEDS; i++) {
-    if (digitalRead(buttons[i]) == HIGH && bouncing[i] == 0) {
-      if (ledsON[i] == 1) {
+void startGuessing()
+{
+  for (int i = 0; i < MAX_LEDS; i++)
+  {
+    if (digitalRead(buttons[i]) == HIGH && bouncing[i] == 0)
+    {
+      if (ledsON[i] == 1)
+      {
         ledsON[i] = 0;
         bouncing[i] = 1;
         digitalWrite(leds[i], HIGH);
-        if (!sumCheck(ledsON)) {
+        if (!sumCheck(ledsON))
+        {
           delay(1000);
           win();
         }
-      } else {
+      }
+      else
+      {
         error();
       }
     }
   }
 }
 
-void error() {
-  for (int i = 0; i < MAX_LEDS; i++) {
+void error()
+{
+  for (int i = 0; i < MAX_LEDS; i++)
+  {
     disableInterrupt(buttons[i]);
   }
   state = ERROR;
 }
 
-void checkError() {
-  for (int i = 0; i < MAX_LEDS; i++) {
+void checkError()
+{
+  for (int i = 0; i < MAX_LEDS; i++)
+  {
     digitalWrite(leds[i], LOW);
   }
   errors++;
-  if (errors < 3) {
+  if (errors < 3)
+  {
     Serial.println("Penalty!!!");
     state = WAIT;
-  } else {
+  }
+  else
+  {
     Serial.print("Game Over. Final score: ");
     Serial.println(score);
     state = START;
@@ -182,8 +219,10 @@ void checkError() {
   digitalWrite(LED_RED, LOW);
 }
 
-void win() {
-  for (int i = 0; i < MAX_LEDS; i++) {
+void win()
+{
+  for (int i = 0; i < MAX_LEDS; i++)
+  {
     digitalWrite(leds[i], LOW);
   }
   score++;
